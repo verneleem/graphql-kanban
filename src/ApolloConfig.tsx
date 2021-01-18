@@ -1,5 +1,3 @@
-import history from "./history";
-
 import {
   ApolloClient,
   createHttpLink,
@@ -14,7 +12,7 @@ function createApolloClient(
     | ((options?: GetIdTokenClaimsOptions | undefined) => Promise<IdToken>)
     | null
 ) {
-  const GRAPHQL_ENDPOINT = process.env.REACT_APP_DGRAPH_BACKEND;
+  const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT;
 
   const inMemoryCacheConfig: InMemoryCacheConfig = {
     typePolicies: {
@@ -58,10 +56,3 @@ function createApolloClient(
 }
 
 export default createApolloClient;
-export function onRedirectCallback(appState: any) {
-  history.push(
-    appState && appState.targetUrl
-      ? appState.targetUrl
-      : window.location.pathname
-  );
-}

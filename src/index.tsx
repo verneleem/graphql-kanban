@@ -5,7 +5,6 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "semantic-ui-css/semantic.min.css";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { onRedirectCallback } from "./ApolloConfig";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,7 +12,6 @@ ReactDOM.render(
       domain={process.env.REACT_APP_AUTH0_DOMAIN as string}
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID as string}
       redirectUri={window.location.origin}
-      onRedirectCallback={onRedirectCallback}
       cacheLocation="localstorage"
     >
       <App />
