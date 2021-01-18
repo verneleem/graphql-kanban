@@ -6,6 +6,7 @@ import { Header as SUHeader } from "semantic-ui-react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import createApolloClient from "./ApolloConfig";
+import ManageUsers from "./utils/ManageUsers";
 
 const CLAIMS = process.env.REACT_APP_AUTH0_CLAIMS_KEY as string;
 
@@ -17,6 +18,7 @@ const App = () => {
     <ApolloProvider
       client={createApolloClient(isAuthenticated ? getIdTokenClaims : null)}
     >
+      <ManageUsers />
       <BrowserRouter>
         <div style={{ height: "-webkit-fill-available", paddingTop: "10em" }}>
           {!isLoading && <Header />}
