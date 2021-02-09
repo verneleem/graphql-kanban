@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "GraphQL Kanban",
+  "name": "A Jira/Trello like clone powered by Slash GraphQL",
   "icons": [
     {
-      "src": "diggy.png",
+      "src": "logo512.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/png"
     }

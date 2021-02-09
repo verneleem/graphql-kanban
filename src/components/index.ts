@@ -1,5 +1,5 @@
 import { Projects } from "./Projects";
 import { Header } from "./Header";
-import { KanbanBoard } from "./KanbanBoard";
+import { Board } from "./Board";
 
-export { Header, Projects, KanbanBoard };
+export { Header, Projects, Board };

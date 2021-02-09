@@ -1,4 +1,5 @@
 import React from "react";
+import "./header.css"
 import { Container, Dropdown, Image, Menu } from "semantic-ui-react";
 import { useProjectNamesQuery } from "./types/operations";
 import { Link } from "react-router-dom";
@@ -57,11 +58,10 @@ function Header() {
   return (
     <Menu fixed="top" borderless={true}>
       <Container>
-        <Menu.Item as="a">
+        <Menu.Item as="a" className="Logo">
           <Image
             size="tiny"
-            src="/diggy.png"
-            style={{ marginRight: "1.5em" }}
+            src="/kanban.svg"
           />
         </Menu.Item>
 

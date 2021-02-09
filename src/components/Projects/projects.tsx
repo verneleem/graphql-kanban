@@ -13,6 +13,7 @@ import ProjectModal from "./project-modal";
 import { useAllProjectsDetailsQuery } from "./types/operations";
 import { UserWithIcon } from "../User/user";
 import { Link } from "react-router-dom";
+import { ConditionalWrapper } from "../../utils";
 
 export interface ProjectProps {
   withProjectEdits: boolean;
@@ -63,7 +64,19 @@ function ProjectList(withProjectEdits: boolean) {
   if (error) return `Error! ${error.message}`;
 
   const items = data?.queryProject?.map((proj: any) => {
-    let icon: "github" | "gitlab" | "bitbucket" | "trello" | "facebook" | "microsoft" | "google" | "react" | "amazon" | "aws" | "app store ios" | "columns" = "columns";
+    let icon:
+      | "github"
+      | "gitlab"
+      | "bitbucket"
+      | "trello"
+      | "facebook"
+      | "microsoft"
+      | "google"
+      | "react"
+      | "amazon"
+      | "aws"
+      | "app store ios"
+      | "columns" = "columns";
     if (proj?.url?.includes("github")) {
       icon = "github";
     } else if (proj?.url?.includes("gitlab")) {
@@ -90,18 +103,23 @@ function ProjectList(withProjectEdits: boolean) {
     return (
       <Table.Row key={proj?.projID}>
         <Table.Cell>
-          <Header as="h4" image>
-            <a
-              href={proj?.url ?? ""}
-              target="__blank"
-              style={{ color: "black" }}
-            >
-              <Icon name={icon} size="large" />
-            </a>
+          <ConditionalWrapper
+            condition={Boolean(proj?.url)}
+            wrapper={(children) => (
+              <a href={proj?.url ?? ""} target="__blank">
+                {children}
+              </a>
+            )}
+          >
+            <Icon name={icon} size="large" color="black" />
+          </ConditionalWrapper>
+        </Table.Cell>
+        <Table.Cell>
+          <Header as="h4">
             <Header.Content
               as={Link}
               to={"/project/" + proj?.projID}
-              style={{ color: "black" }}
+              className="black"
             >
               {proj?.name}
               <Header.Subheader>{proj?.description}</Header.Subheader>
@@ -113,9 +131,11 @@ function ProjectList(withProjectEdits: boolean) {
           {withProjectEdits && (
             <Modal
               trigger={
-                <Button>
-                  <Icon name="edit" />
-                  Edit
+                <Button animated="vertical">
+                  <Button.Content visible>
+                    <Icon name="edit" />
+                  </Button.Content>
+                  <Button.Content hidden>Edit</Button.Content>
                 </Button>
               }
             >

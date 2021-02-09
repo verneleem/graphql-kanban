@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { Fragment, useState } from "react";
 import { Header, Image, Modal, Form, Button } from "semantic-ui-react";
 import { Project } from "../../types/graphql";
-import updateCacheAfterDelete from "../../utils/updateCacheAfterDelete";
+import { updateCacheAfterDelete } from "../../utils";
 
 import {
   useGetProjectDetailsQuery,
@@ -33,7 +33,7 @@ function useFormButton(project: Partial<Project>, closeModal: () => void) {
   })
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <div className="flex between">
       <Form.Button
         disabled={!isAuthenticated || !project.name || !user.email}
         onClick={() => {
@@ -150,7 +150,7 @@ function ProjectModal(props: ProjectModalProps) {
           size="medium"
           src="https://img.icons8.com/dusk/256/000000/new-job.png"
         />
-        <Modal.Description style={{ flexGrow: 1 }}>
+        <Modal.Description className="GROW">
           <Header>Project Details</Header>
           <Form>
             <Form.Input

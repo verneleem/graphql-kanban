@@ -1,19 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
+import "./board.css"
 import { useParams } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import { orderColumns } from "../../utils/orderColumns";
-import { parseJSON } from "../../utils/parseJSON";
-import { Column } from "./column";
-import { NewColumn } from "./newColumn";
+import { orderColumns, parseJSON, Loading } from "../../utils";
+import { Column, NewColumn } from "../Column";
 import { useGetProjectQuery, useMoveTicketMutation, useSetColumnOrderMutation, useSetTicketOrderMutation } from "./types/operations";
 
-interface KanbanBoardParams {
+interface URLParams {
   projID: string;
 }
 
-export function KanbanBoard() {
-  const { projID } = useParams<KanbanBoardParams>();
+const Board: React.FC = () => {
+  const { projID } = useParams<URLParams>();
   const { data, loading, error } = useGetProjectQuery({
     variables: {
       projectID: projID
@@ -132,35 +131,20 @@ export function KanbanBoard() {
     return null;
   };
 
-  if (loading) return <>Loading...</>;
+  if (loading) return <Loading />;
   if (error) return <>Error!</>;
   return (
-    <div
-      style={{
-        height: "-webkit-fill-available",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Menu pointing secondary style={{}}>
+    <div className="Board">
+      <Menu pointing secondary>
         <Menu.Item header>{data?.getProject?.name}</Menu.Item>
         <Menu.Menu position="right"></Menu.Menu>
       </Menu>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="project" direction="horizontal" type="columns">
           {(provided) => (
-            <div
+            <div className="Columns"
               ref={provided.innerRef}
               {...provided.droppableProps}
-              style={{
-                overflowX: "auto",
-                height: "-webkit-fill-available",
-                display: "flex",
-                paddingLeft: "5px",
-                paddingRight: "5px",
-                minWidth: "100%",
-                float: "left",
-              }}
             >
               {columns.map((column, index) => (
                 <Column column={column} index={index} key={column.colID} />
@@ -174,3 +158,5 @@ export function KanbanBoard() {
     </div>
   );
 }
+
+export default Board

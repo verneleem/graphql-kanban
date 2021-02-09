@@ -1,8 +1,13 @@
-Project management kanban board app built with Dgraph GraphQL.  
-
-**Use [Discuss Issues](https://discuss.dgraph.io/c/issues/35) for reporting issues about this repository.**
-
-*Currently in early stages development*
+<div style="padding-top: 5px; padding-bottom: 10px;">
+  <h1 align="center">GraphQL Kanban App.</h1>
+  <h2 align="center">
+    A Jira/Trello like clone powered by<br />
+    <a href="https://dgraph.io/slash-graphql" target="_blank">
+      <img src="https://dgraph.io/assets/images/slashgraphql-logo.svg" alt="Slash GraphQL" />
+    </a><br />
+    A fully-managed GraphQL backend service
+  </h2>
+</div>
 
 Tech stack:
 * Backend:
@@ -12,21 +17,23 @@ Tech stack:
   * [React](https://reactjs.org/)
   * [Semantic UI React](https://react.semantic-ui.com/)
   * [React Router Dom](https://www.npmjs.com/package/react-router-dom)
-  * [Apollo client v3.0 (React)](https://www.apollographql.com/docs/)
+  * [Apollo client v3.0](https://www.apollographql.com/docs/)
   * [GraphQL Code Generator](https://graphql-code-generator.com/) 
   * [Auth0 React](https://www.npmjs.com/package/@auth0/auth0-react)
   * [React Beautiful DND](https://www.npmjs.com/package/react-beautiful-dnd)
- 
-## One-Click Deploy
 
-Deploy both the frontend and backend with once-click using Slash GraphQL.
+## Screenshots
 
-## Forking and modifying this application.
+![Add New Project](./images/AddNewProject.png)
+![Project List](./images/ProjectList.png)
+![Add New Column](./images/AddNewColumn.png)
 
-Instead of creating a new React app, or using a the one-click deploy from Slash GraphQL, do the following:
+## Forking and running this application locally
+
+Soon, this app will be available for one-click deploy on Slash GraphQL, until then, do the following to run this app locally:
 
 [Fork this project](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) into your own Github account.
-[Clone this project](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo#step-2-create-a-local-clone-of-your-fork) onto your local machine.
+[Clone the project](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo#step-2-create-a-local-clone-of-your-fork) onto your local machine.
 
 Integrate with Auth0:
 
@@ -40,7 +47,7 @@ Integrate with Auth0:
 8. Download your .pem certificate from `[Domain]/pem` and save to a local file not in the repo
 9. Open this downloaded .pem file in your favorite text editor (We recommend Visual Studio Code)
 10. Replace all line breaks with the `\n` characters. (e.g. `-----BEGIN CERTIFICATE-----\n...\n...\n-----END CERTIFICATE-----`)
-11. Copy the updated contents of this file and Paste into the last line of `/src/schema.graphql` replacing the value for the key `VerificationKey`
+11. Copy the updated contents of the file from the previous step and Paste into the last line of `/src/schema.graphql` replacing the value for the key `VerificationKey`
 
 Integrate with Slash GraphQL:
 
@@ -75,14 +82,16 @@ Join our active [community](https://discuss.dgraph.io/) of fellow Slash GraphQL 
 
 Want to learn more about Slash, GraphQL, and React? Visit https://dgraph.io/learn
 
-# Starting an app like this
+# Starting an app like this from scratch
+
+Do you want to start your own React, Slash GraphQL, Apollo, and Auth0 application? Try following these steps:
 
 ```sh
 npx create-react-app graphql-kanban --template typescript
 cd graphql-kanban
-npm install @apollo/client @auth0/auth0-react graphql history markdown-to-jsx react-beautiful-dnd react-router-dom semantic-ui-css semantic-ui-react
+npm install @apollo/client @auth0/auth0-react graphql markdown-to-jsx react-beautiful-dnd react-router-dom semantic-ui-css semantic-ui-react
 
-npm install --save-dev @graphql-codegen/add @graphql-codegen/cli @graphql-codegen/introspection @graphql-codegen/near-operation-file-preset @types/react-router-dom @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo @types/react-beautiful-dnd @types/react-router-dom @types/semantic-ui
+npm install --save-dev @graphql-codegen/add @graphql-codegen/cli @graphql-codegen/introspection @graphql-codegen/near-operation-file-preset @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo @types/react-beautiful-dnd @types/react-router-dom @types/semantic-ui
 ```
 
 GraphQL Code Generator can generate types, hooks, components, and HOCs for your project.
@@ -114,10 +123,10 @@ Anytime your types change or you add a new query/mutation to a .graphql file in 
 Feel free to browse the code in this repository to see how we implemented the following:
 
 - Wrapped the App with the Auth0 Provider in `/src/index.tsx`
-- Cnfigured the Apollo Client with `/src/ApooloConfig.tsx`
+- Configured the Apollo Client with `/src/ApolloConfig.tsx`
 - Added Apollo Provider in `/src/App.tsx`
 - Created Routes with BrowserRoutes in `/src/App.tsx`
-- Added Beautiful DND Context around the Kanban boards in `/src/components/KanbanBoard/boards.tsx`
-- Added Draggables and Droppables in `/src/components/KanbanBoard/column.tsx` and `/src/components/KanbanBoard/ticket.tsx`
+- Added Beautiful DND Context around the Kanban boards in `/src/components/Board/board.tsx`
+- Added Draggables and Droppables in `/src/components/Column/column.tsx` and `/src/components/Ticket/ticket.tsx`
 - Use the generated GraphQL types and Apollo hooks throughout the components based on the `operations.graphql` files.
 

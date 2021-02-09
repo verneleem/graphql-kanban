@@ -1,17 +1,18 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useMemo, useState } from "react";
+import "./ticket.css"
 import { Draggable } from "react-beautiful-dnd";
 import { Button, Card, Form, Icon, Ref, Confirm, Image, Dropdown, DropdownItemProps, Popup } from "semantic-ui-react";
 import { Comment as CommentT, Exact, Ticket as TicketT, TicketPatch } from "../../types/graphql";
-import updateCacheAfterDelete from "../../utils/updateCacheAfterDelete";
+import { updateCacheAfterDelete } from "../../utils";
 import {
+  useAllowedUsersQuery,
   useDeleteTicketMutation,
   useUpdateTicketMutation,
   useAddCommentMutation,
 } from "./types/operations";
 import Markdown from "markdown-to-jsx";
-import CommentsComp from "./comments";
-import { useAllUsersQuery } from "../Projects/types/operations";
+import CommentsComp from "../Comments/comments";
 
 const CLAIMS = process.env.REACT_APP_AUTH0_CLAIMS_KEY as string;
 
@@ -19,7 +20,7 @@ interface TicketProps {
   ticket: TicketT;
   index: number;
 }
-export const Ticket: React.FC<TicketProps> = ({ ticket, index }) => {
+const Ticket: React.FC<TicketProps> = ({ ticket, index }) => {
   const { user } = useAuth0();
   const { username = null } = user?.[CLAIMS] || {};
   const [editing, editTicket] = useState(false);
@@ -40,14 +41,14 @@ export const Ticket: React.FC<TicketProps> = ({ ticket, index }) => {
   const [comment, setComment] = useState("");
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false)
   const [addComment] = useAddCommentMutation()
-  const { data: AllUsers } = useAllUsersQuery()
+  const { data: AllUsers } = useAllowedUsersQuery({ variables: { username: username } })
   const userOptions = useMemo(()=>{
     const options: DropdownItemProps[] = AllUsers?.queryUser?.map(user => {
       return {
         key: user?.username,
         text: user?.displayName,
         value: user?.username,
-        image: user?.image || `https://identicon-api.herokuapp.com/${user?.displayName?.replace(/[^A-Za-z0-9!?]/,'')}/120?format=png` || `https://github.com/identicons/${user?.displayName?.replace(/[^A-Za-z0-9!?]/,'')}.png`
+        image: user?.image || `https://identicon-api.herokuapp.com/${user?.displayName?.replace(/[^A-Za-z0-9!?]/,'')}/120?format=png`
       }
     }) || []
     options.unshift({
@@ -112,16 +113,8 @@ export const Ticket: React.FC<TicketProps> = ({ ticket, index }) => {
       {(provided) => (
         <Ref innerRef={provided.innerRef}>
           <Card
+            className="Ticket"
             {...provided.draggableProps}
-            style={{
-              ...provided.draggableProps.style,
-              width: "unset",
-              backgroundColor: "#fefefe",
-              padding: "10px",
-              boxShadow: "0 1px 2px rgba(34,36,38,.15)",
-              borderRadius: "0.5em",
-              marginTop: "5px",
-            }}
             {...provided.dragHandleProps}
           >
             <Card.Content>
@@ -260,3 +253,5 @@ export const Ticket: React.FC<TicketProps> = ({ ticket, index }) => {
     </Draggable>
   );
 }
+
+export default Ticket

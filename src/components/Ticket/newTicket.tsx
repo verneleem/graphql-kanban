@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./newTicket.css"
 import {
   Input,
   Form,
@@ -7,7 +8,7 @@ import {
   Icon,
   Confirm,
 } from "semantic-ui-react";
-import updateCacheAfterDelete from "../../utils/updateCacheAfterDelete";
+import { updateCacheAfterDelete } from "../../utils";
 import { useAddTicketMutation, useDeleteColumnMutation } from "./types/operations";
 
 interface NewTicketProps {
@@ -16,7 +17,7 @@ interface NewTicketProps {
   withDelete?: boolean;
 }
 
-export function NewTicket(props: NewTicketProps) {
+const NewTicket: React.FC<NewTicketProps> = (props) => {
   const { colID, columnName, withDelete = false } = props;
   const [active, setActive] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -46,17 +47,12 @@ export function NewTicket(props: NewTicketProps) {
     <>
       {active && (
         <div
-          style={{
-            marginTop: "10px",
-            backgroundColor: "#fefefe",
-            padding: "10px",
-          }}
+          className="New active"
         >
           <Input
             placeholder="Enter Ticket Title Here"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            style={{ width: "100%" }}
           />
           <Form.Field
             control={TextArea}
@@ -65,26 +61,17 @@ export function NewTicket(props: NewTicketProps) {
             onChange={(e: {
               target: { value: React.SetStateAction<string> };
             }) => setDescription(e.target.value)}
-            style={{
-              width: "100%",
-              marginTop: "10px",
-              resize: "vertical",
-              padding: "1em",
-            }}
           />
           {title !== "" && (
             <Button
               primary={true}
-              style={{ width: "100%", marginTop: "10px" }}
               onClick={() => addTicket()}
             >
               Submit
             </Button>
           )}
           <Button
-            placeholder="Enter Ticket Description Here"
             secondary={true}
-            style={{ width: "100%", marginTop: "10px" }}
             onClick={() => {
               setActive(false);
               setTitle("");
@@ -96,29 +83,19 @@ export function NewTicket(props: NewTicketProps) {
         </div>
       )}
       {!active && (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div className="New inactive">
           {!active && (
             <div
-              style={{
-                textAlign: "center",
-                marginTop: "10px",
-                cursor: "pointer",
-              }}
               onClick={() => setActive(true)}
             >
-              <Icon name="plus" size="big" color="grey" />
+              <Icon link name="plus" size="big" color="grey" />
             </div>
           )}
           {!showDelete && withDelete && (
             <div
-              style={{
-                textAlign: "center",
-                marginTop: "10px",
-                cursor: "pointer",
-              }}
               onClick={() => setShowDelete(true)}
             >
-              <Icon name="trash alternate outline" size="big" color="grey" />
+              <Icon link name="trash alternate outline" size="big" color="grey" />
             </div>
           )}
           <Confirm
@@ -135,3 +112,5 @@ export function NewTicket(props: NewTicketProps) {
     </>
   );
 }
+
+export default NewTicket

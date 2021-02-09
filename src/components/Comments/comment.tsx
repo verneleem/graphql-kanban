@@ -1,11 +1,11 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import Markdown from "markdown-to-jsx";
-import React, { useEffect, useState } from "react";
-import { Button, Comment, Confirm, Form } from "semantic-ui-react";
-import { Comment as CommentT } from "../../types/graphql"
-import TimeAgo from "../../utils/TimeAgo";
-import updateCacheAfterDelete from "../../utils/updateCacheAfterDelete";
-import { useDeleteCommentMutation, useUpdateCommentMutation } from "./types/operations";
+import { useAuth0 } from '@auth0/auth0-react'
+import Markdown from 'markdown-to-jsx';
+import React, { useEffect, useState } from 'react'
+import { Button, Comment, Confirm, Form } from 'semantic-ui-react';
+import { Comment as CommentT } from '../../types/graphql';
+import TimeAgo from '../../utils/TimeAgo';
+import updateCacheAfterDelete from '../../utils/updateCacheAfterDelete';
+import { useDeleteCommentMutation, useUpdateCommentMutation } from './types/operations'
 
 const CLAIMS = process.env.REACT_APP_AUTH0_CLAIMS_KEY as string;
 
@@ -13,7 +13,7 @@ interface CommentProps {
   comment: CommentT
 }
 
-export const CommentComp: React.FC<CommentProps> = ({ comment }) => {
+const CommentComp: React.FC<CommentProps> = ({ comment }) => {
   const {user} = useAuth0()
   const [editing, setEditing] = useState(false)
   const [commentVal, setCommentVal] = useState(comment.text)
@@ -74,7 +74,7 @@ export const CommentComp: React.FC<CommentProps> = ({ comment }) => {
           {canEdit && <Comment.Action onClick={()=>setEditing(true)}>Edit</Comment.Action>}
           {canDelete && <>
             <Comment.Action onClick={()=>setOpenConfirmDelete(true)}>Delete</Comment.Action>
-            <Confirm 
+            <Confirm
               content="Ae you sure you want to delete this comment?"
               open={openConfirmDelete}
               onCancel={()=>setOpenConfirmDelete(false)}
@@ -90,24 +90,4 @@ export const CommentComp: React.FC<CommentProps> = ({ comment }) => {
   )
 }
 
-interface CommentsProps {
-  comments: CommentT[]
-}
-
-export const CommentsComp: React.FC<CommentsProps> = ({ comments }) => {
-  const [limit, setLimit] = useState(true)
-  const toggleLimit = () => setLimit(!limit)
-  return (
-    <Comment.Group>
-      {comments?.map((comment,i) => {
-        if (limit && i>2) return null
-        return (
-          <CommentComp comment={comment} key={comment.id} />
-        )
-      })}
-      {comments.length>3 && <Button onClick={()=>toggleLimit()} >{limit ? "Show More" : "Show Less"}</Button>}
-    </Comment.Group>
-  )
-}
-
-export default CommentsComp
+export default CommentComp
